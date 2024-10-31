@@ -89,8 +89,8 @@ The `Odometer` class enables precise tracking of the robot's position and orient
 - **`self.ticks_per_revolution`**: Encoder ticks per wheel revolution (508.8).
 - **`self.mm_per_tick`**: Millimeters traveled per encoder tick.
 - **`self.last_left_encoder`** / **`self.last_right_encoder`**: Previous encoder readings for calculations.
-- **Bumper Attributes**: For detecting bumps and drops.
-- **Light Bumper Attributes**: Six sensors for detecting nearby obstacles.
+- **`Bumper Attributes`**: For detecting bumps and drops.
+- **`Light Bumper Attributes`**: Six sensors for detecting nearby obstacles.
 - **`self.starting_position`**: Initial position for the coordinate system.
 - **`self.grid_coordinates`**: Stores current grid cell coordinates.
 
@@ -121,8 +121,8 @@ Prompts the user for commands based on the specified mode.
 - **Returns**: User input as a string.
 
 - **Modes**:
-  - **manual**: Prompts for commands such as moving, turning, quitting, singing, or help.
-  - **auto**: Prompts for target coordinates in the form `[X, Y]` along with options to quit or seek help.
+  - **`manual`**: Prompts for commands such as moving, turning, quitting, singing, or help.
+  - **`auto`**: Prompts for target coordinates in the form `[X, Y]` along with options to quit or seek help.
 
 #### `print_command_help()`
 
@@ -164,6 +164,6 @@ Displays a list of available automatic commands:
 ```python
 parser = argparse.ArgumentParser(description="Control de robot con parámetros.")
 parser.add_argument('--port', type=str, default=DEFAULT_PORT, help='Ruta del puerto del robot.')
-parser.add_argument('--baud', type=int, default=DEFAULT_BAUD['default'], help='Velocidad de baudios para la comunicación con el robot.')
-parser.add_argument('--mode', type=str, default='manual', choices=['manual', 'auto'], help='Modo de ejecución (manual o automático).')
+parser.add_argument('--baud', type=int, default=DEFAULT_BAUD['default'], help='Velocidad de baudios en comunicación.')
+parser.add_argument('--mode', type=str, default='manual', choices=['manual', 'auto'], help='Modo de ejecución.')
 ```
