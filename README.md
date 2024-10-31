@@ -57,18 +57,42 @@ This class handles the connection and communication with the robot, managing bot
 
 ### `Odometer`
 
-The `Odometer` class handles odometry calculations, enabling precise tracking of position and orientation based on encoder readings.
+The `Odometer` class enables precise tracking of the robot's position and orientation using encoder readings.
 
-   - **Attributes**:
-     - `self.bot`: Reference to the `Create2` instance.
-     - `self.x`, `self.y`: Current coordinates of the robot.
-     - `self.angle`: Orientation in radians.
+#### Attributes
 
-   - **Primary Methods**:
-     - `initialize_odometry()`: Sets initial values for position and orientation.
-     - `update_odometry()`: Updates `(x, y)` position and `angle` based on encoder readings, calculating distance and rotation traveled.
+- **`self.bot`**: Reference to the `Create2` object.
+- **`self.current_position`**: Current position as `[x, y]` in mm.
+- **`self.current_angle`**: Current orientation in degrees.
+- **`self.wheel_diameter`**: Wheel diameter (72.0 mm).
+- **`self.wheel_base`**: Distance between wheels (235.0 mm).
+- **`self.ticks_per_revolution`**: Encoder ticks per wheel revolution (508.8).
+- **`self.mm_per_tick`**: Millimeters traveled per encoder tick.
+- **`self.last_left_encoder`** / **`self.last_right_encoder`**: Previous encoder readings for calculations.
+- **Bumper Attributes**: For detecting bumps and drops.
+- **Light Bumper Attributes**: Six sensors for detecting nearby obstacles.
+- **`self.starting_position`**: Initial position for the coordinate system.
+- **`self.grid_coordinates`**: Stores current grid cell coordinates.
 
-### Command Interface
+#### Methods
+
+- **`__init__(self, bot)`**: Initializes the odometer attributes.
+  
+- **`initialize_odometry(self)`**: Sets the initial position to `(0, 0)` and updates the grid coordinates.
+
+- **`read_position_sensors(self)`**: Returns the initial position based on encoder readings.
+
+- **`read_angle_sensor(self)`**: Calculates the initial angle based on encoder differences.
+
+- **`update_grid_coordinates(self)`**: Updates grid coordinates based on current position.
+
+- **`get_sensor_data(self)`**: Retrieves sensor data from the `Create2` object.
+
+- **`update_odometry(self)`**: Updates position and angle based on current encoder readings.
+
+- **`print_odometry(self)`**: Displays current odometry to the console.
+
+### `CommandInterface`
 
 The `CommandInterface` class provides an interface for user commands to control a robot. It utilizes ANSI color codes for improved readability in the command line.
 
