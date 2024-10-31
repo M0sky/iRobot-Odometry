@@ -1,6 +1,6 @@
-# :octocat: Robot Controller
+# :octocat: iRobot Roomba 650
 
-**Robot Controller** is a Python script designed to manage an iRobot Create2 (Roomba) through manual and automatic modes. The script leverages the `pycreate2` library for direct communication with the robot, with real-time data visualization using `matplotlib` and `tkinter` for a GUI.
+**Go.py** is a Python script designed to manage an iRobot Create2 (Roomba) through manual and automatic modes. The script leverages the `pycreate2` library for direct communication with the robot, with real-time data visualization using `matplotlib` and `tkinter` for a GUI.
 
 ## Functionality
 
@@ -42,18 +42,38 @@
 
 This class handles the connection and communication with the robot, managing both manual and automatic movement. It is also responsible for odometry updates, calculating and visualizing the robot's real-time position.
 
-   - **Attributes**:
-     - `self.port`, `self.baud`: Communication port and baud rate for robot connection.
-     - `self.bot`: Instance of `Create2` from `pycreate2`, enabling robot interaction.
-     - `self.odometer`: An instance of `Odometer` to calculate position based on encoder data.
-     - `self.queue`: Queue structure to manage movement commands and data.
-     - `self.fig`, `self.ax`: Elements from `matplotlib` for GUI plotting.
+- **Attributes**:
+  - `self.port`, `self.baud`: Communication port and baud rate for robot connection.
+  - `self.bot`: Instance of `Create2` from `pycreate2`, enabling robot interaction.
+  - `self.odometer`: An instance of `Odometer` to calculate position based on encoder data.
+  - `self.plotter`: For plotting the robot's trajectory.
+  - `self.queue`: Queue structure to manage movement commands and data.
+  - `self.running`: Boolean to check if the robot is currently running.
+  - `self.mode`: Current operation mode (manual or automatic).
+  - `self.back`: Boolean flag indicating whether to move backward.
+  - `self.trajectory`: List to store the robot's trajectory.
+  - `self.current_path`: List to keep track of the current path for returning.
 
-   - **Primary Methods**:
-     - `initialize_robot()`: Establishes the connection with the robot and sets up the initial GUI configurations, loading the iRobot image and creating the coordinate grid.
-     - `manual_control()`: Allows direct movement commands through keyboard inputs.
-     - `automatic_control()`: Runs a pre-set series of movements autonomously.
-     - `draw_robot()`: Updates the robot's position in the GUI, showing real-time trajectory and orientation.
+- **Primary Methods**:
+  - `__init__(self, port=DEFAULT_PORT, baud=DEFAULT_BAUD['default'])`: Initializes the robot controller with default communication settings.
+  - `initialize_robot()`: Establishes the connection with the robot, initializes odometry, sets up the GUI, and prepares for movement.
+  - `close_robot()`: Safely closes the connection with the robot, stopping its movement and freeing resources.
+  - `run(self)`: Parses command-line arguments, initializes the robot, and starts either manual or automatic control based on the provided mode.
+  - `return_orientation(self)`: Adjusts the robot's orientation to the initial angle based on its current angle.
+  - `follow_path(self, path)`: Moves the robot through the specified path, navigating from node to node while updating odometry and trajectory.
+  - `update_plot(self)`: Updates the graphical representation of the robot's position and trajectory in real-time.
+  - `close(self)`: Closes the plot figure.
+  - `process_queue(self)`: Processes queued commands to update the robot's state and visuals without blocking.
+  - `move(self, distance_cm)`: Moves the robot forward or backward by a specified distance, controlling movement with odometry and handling encoder readings, including obstacle detection and response.
+  - `turn(self, angle_deg)`: Rotates the robot to a specified angle using odometry, managing encoder readings and handling potential errors such as encoder overflow.
+  - `canta(self, seleccion)`: Plays a selected song from a predefined set. The method validates the selection, creates the song in the robot, and plays it, waiting for the duration of the song to finish before continuing.
+  - `handle_encoder_overflow(self, previous_value, current_value, max_value)`: Manages encoder overflow by calculating the difference between previous and current encoder values. It adjusts the difference to account for overflow in both positive and negative directions.
+  - `set_goal(self, goal_x, goal_y)`: Defines the target position on the grid for the robot to navigate towards.
+  - `a_star(self)`: Executes the A* algorithm to find the shortest path from the robot's starting position to the defined goal. It uses a priority queue to explore nodes and applies heuristics for efficient pathfinding.
+  - `manhattan_heuristic(self, current)`: Calculates the Manhattan heuristic to the goal. It computes the sum of the absolute differences in the x and y coordinates, scaled by the step distance.
+  - `euclidean_heuristic(self, current)`: Calculates the Euclidean heuristic to the goal. It computes the straight-line distance to the goal using the Pythagorean theorem, scaled by the step distance.
+  - `reconstruct_path(self, current)`: Reconstructs the path from the goal back to the start. It traces back the path using the `came_from` dictionary and returns it in the correct order from start to finish.
+  - `grid_to_physical_position(self, x, y)`: Converts grid coordinates (x, y) to physical position in centimeters by multiplying the grid coordinates by the step distance.
 
 ### `Odometer`
 
@@ -76,20 +96,13 @@ The `Odometer` class enables precise tracking of the robot's position and orient
 
 #### Methods
 
-- **`__init__(self, bot)`**: Initializes the odometer attributes.
-  
+- **`__init__(self, bot)`**: Initializes the odometer attributes.  
 - **`initialize_odometry(self)`**: Sets the initial position to `(0, 0)` and updates the grid coordinates.
-
 - **`read_position_sensors(self)`**: Returns the initial position based on encoder readings.
-
 - **`read_angle_sensor(self)`**: Calculates the initial angle based on encoder differences.
-
 - **`update_grid_coordinates(self)`**: Updates grid coordinates based on current position.
-
 - **`get_sensor_data(self)`**: Retrieves sensor data from the `Create2` object.
-
 - **`update_odometry(self)`**: Updates position and angle based on current encoder readings.
-
 - **`print_odometry(self)`**: Displays current odometry to the console.
 
 ### `CommandInterface`
