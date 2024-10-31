@@ -68,21 +68,11 @@ The `Odometer` class handles odometry calculations, enabling precise tracking of
      - `initialize_odometry()`: Sets initial values for position and orientation.
      - `update_odometry()`: Updates `(x, y)` position and `angle` based on encoder readings, calculating distance and rotation traveled.
 
-### CommandInterface Class
+### Command Interface
 
 The `CommandInterface` class provides an interface for user commands to control a robot. It utilizes ANSI color codes for improved readability in the command line.
 
-### ANSI Color Codes
-
-- **RESET**: Resets the text color.
-- **HEADER**: Header text color (magenta).
-- **OKBLUE**: Informational text color (blue).
-- **OKGREEN**: Success message color (green).
-- **WARNING**: Warning message color (yellow).
-- **FAIL**: Error message color (red).
-- **BOLD**: Bold text.
-
-### Methods
+#### Methods
 
 #### `read_command(mode='manual')`
 
@@ -131,3 +121,12 @@ Displays a list of available automatic commands:
 2. **Run the Script**: Open a terminal and execute:
    ```bash
    python go.py
+   ```
+3. **Command-Line Arguments**: The robot can be controlled via command-line arguments using the `argparse` module. The following parameters can be specified:
+
+```python
+parser = argparse.ArgumentParser(description="Control de robot con parámetros.")
+parser.add_argument('--port', type=str, default=DEFAULT_PORT, help='Ruta del puerto del robot.')
+parser.add_argument('--baud', type=int, default=DEFAULT_BAUD['default'], help='Velocidad de baudios para la comunicación con el robot.')
+parser.add_argument('--mode', type=str, default='manual', choices=['manual', 'auto'], help='Modo de ejecución (manual o automático).')
+```
