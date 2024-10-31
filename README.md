@@ -68,6 +68,62 @@ The `Odometer` class handles odometry calculations, enabling precise tracking of
      - `initialize_odometry()`: Sets initial values for position and orientation.
      - `update_odometry()`: Updates `(x, y)` position and `angle` based on encoder readings, calculating distance and rotation traveled.
 
+### CommandInterface Class
+
+The `CommandInterface` class provides an interface for user commands to control a robot. It utilizes ANSI color codes for improved readability in the command line.
+
+### ANSI Color Codes
+
+- **RESET**: Resets the text color.
+- **HEADER**: Header text color (magenta).
+- **OKBLUE**: Informational text color (blue).
+- **OKGREEN**: Success message color (green).
+- **WARNING**: Warning message color (yellow).
+- **FAIL**: Error message color (red).
+- **BOLD**: Bold text.
+
+### Methods
+
+#### `read_command(mode='manual')`
+
+Prompts the user for commands based on the specified mode.
+
+- **Parameters**:
+  - `mode` (str): Can be either `'manual'` or `'auto'`.
+  
+- **Returns**: User input as a string.
+
+- **Modes**:
+  - **manual**: Prompts for commands such as moving, turning, quitting, singing, or help.
+  - **auto**: Prompts for target coordinates in the form `[X, Y]` along with options to quit or seek help.
+
+#### `print_command_help()`
+
+Displays a list of available manual commands:
+
+- `m <distance_cm>`: Move the robot forward (positive) or backward (negative) by a distance in cm.
+- `g <angle_degrees>`: Turn the robot left (positive) or right (negative) by a specified angle in degrees.
+- `q`: Quit the program.
+
+**Examples**:
+- `m 50` → Moves the robot 50 cm forward.
+- `m -30` → Moves the robot 30 cm backward.
+- `g 90` → Turns the robot 90 degrees to the left.
+- `g -45` → Turns the robot 45 degrees to the right.
+- `q` → Exits the program.
+
+#### `print_auto_command_help()`
+
+Displays a list of available automatic commands:
+
+- `<x> <y>`: Sets the target coordinates (X, Y) for the robot to move to.
+- `q`: Quit the program.
+
+**Examples**:
+- `4 -1` → Moves the robot to the coordinate (4, -1).
+- `0 0` → Moves the robot back to the origin (0, 0).
+- `q` → Exits the program.
+
 ## Running the Script
 
 1. **Initial Configuration**: Connect the iRobot to the computer’s serial port (default: `COM3`). Modify the port if needed.
