@@ -18,12 +18,24 @@
 ### 3. **Odometry and Speed Control**:
    - **Position Calculation**: The script continuously updates the robot's position `(x, y)` and orientation using encoder data, calculated through `Odometer`.
    - **Straight Movements**: The robot moves at a speed of 100 or -100 for forward and backward movements.
-   - **Rotational Movements**: When rotating, the speed is set to 60 for the left wheel and -60 for the right wheel to achieve a smooth turn.
+   - **Rotational Movements**: For rotation, the robot alternates between speeds of 60 and -60, allowing it to turn smoothly both left and right.
 
 ### 4. **Graphical Visualization (GUI)**:
-   - **Interface**: The GUI displays the robot’s current position and orientation, facilitating real-time trajectory tracking.
-   - **Trajectory Update**: The interface uses `matplotlib` to plot the ongoing path and `tkinter` for interactive control windows. In manual mode, users can watch the position change with each movement command.
+   - **Interactive Plotting**: The GUI provides an interactive `matplotlib` plot to visualize the robot's real-time path, positions, and rotations, facilitated by a `tkinter`-based control interface.
+   - **Configuration and Layout**:
+     - A queue (`self.queue`) manages update requests, making real-time plotting smooth and non-blocking.
+     - The interactive mode in `matplotlib` (`plt.ion()`) allows for continuous updates without freezing the display.
+     - A single subplot (`self.fig, self.ax`) is configured with labels, a title ("iRobot Roomba 650 Pathing"), and grid lines, with x and y limits set to (-2, 2) meters for clarity.
 
+   - **Robot Representation**:
+     - An image of the iRobot is loaded and adjusted to scale using `self.irobot_png` with a defined size of `0.1` (10% of the plot scale). The robot's current position updates on each movement using `update_plot()`.
+     - The robot’s image position on the plot is dynamically adjusted based on its updated `(x, y)` coordinates, allowing smooth visual tracking of rotations and translations.
+
+   - **Trajectory Tracking**:
+     - **Path Recording**: The robot's position is appended to `self.trajectory`, and each segment is drawn on the plot with a red line.
+     - **Plot Updates**: `update_plot()` refreshes the robot's position and trajectory, calling `plt.pause(0.01)` for smooth animations.
+     - **Queue-Based Updates**: `process_queue()` manages and processes plot updates asynchronously, checking for "update" messages in the queue to trigger `update_plot()` without delay.
+       
 ## Main Classes
 
 ### `RobotController`
