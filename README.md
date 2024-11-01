@@ -113,7 +113,7 @@ The `CommandInterface` class provides an interface for user commands to control 
 
 - **`read_command(mode='manual')`**: Prompts the user for commands based on the specified mode.
 - **`print_command_help()`**: Displays a list of available manual commands:
-- ++`print_auto_command_help()`**: Displays a list of available automatic commands:
+- **`print_auto_command_help()`**: Displays a list of available automatic commands:
 
 ## Running the Script
 
