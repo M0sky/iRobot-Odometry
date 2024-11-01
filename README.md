@@ -131,9 +131,9 @@ parser.add_argument('--port', type=str, default=DEFAULT_PORT, help='Ruta del pue
 parser.add_argument('--baud', type=int, default=DEFAULT_BAUD['default'], help='Velocidad de baudios en comunicación.')
 parser.add_argument('--mode', type=str, default='manual', choices=['manual', 'auto'], help='Modo de ejecución.')
 ```
-## Video
+## 📹 Video
 
-You can donwload or view the videos PoC here:
+You can download or view the proof of concept videos here:
 
-[Desktop](https://drive.google.com/file/d/1yMsb9Z0hmi3U5p4agsuoydLuL4zZW2Ba/preview)
-[iRobot](https://drive.google.com/file/d/18DJL_V73mZezgqLEl0DS7_B8TRwXr70_/preview)
+- **[Desktop View](https://drive.google.com/file/d/1yMsb9Z0hmi3U5p4agsuoydLuL4zZW2Ba/preview)** 💻
+- **[iRobot Demo](https://drive.google.com/file/d/18DJL_V73mZezgqLEl0DS7_B8TRwXr70_/preview)** 🤖
